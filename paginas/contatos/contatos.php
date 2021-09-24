@@ -24,6 +24,11 @@
     </thead>
     <tbody>
         <?php 
+            //variáveis para paginação
+            $quantidade = 10;
+            $pagina = (isset($_GET['pagina'])) ? (int)$_GET['pagina'] : 1; 
+            $inicio = ($quantidade * $pagina) - $quantidade;
+
         //sql para o pesquisar
             $txt_pesquisa = (isset($_POST["txt_pesquisa"])) ? $_POST["txt_pesquisa"] : "";
 
@@ -46,7 +51,8 @@
                     FROM tbcontatos
                     WHERE id = '$txt_pesquisa' 
                     OR nomeContato LIKE '%$txt_pesquisa%'
-                    ORDER BY nomeContato ASC ";
+                    ORDER BY nomeContato ASC
+                    LIMIT $inicio,$quantidade ";
             $rs = mysqli_query($conexao,$sql) or die("Erro ao tentar conectar" . mysqli_error($conexao));
 
             while($dados = mysqli_fetch_assoc($rs)){
@@ -69,3 +75,12 @@
         ?>
     </tbody>
 </table>
+<br>
+<?php
+    $sqlTotal = "SELECT COUNT(id) FROM tbcontatos;
+    $qrTotal = mysqli_query($conexao, $sqlTotal) or die (mysqli_error($conexao));
+    $numTotal = mysqli_num_rows($qrTotal);
+    $totalPagina = ceil($numTotal/$quantidade);
+    
+    //echo "total de registros: $numTotal";
+?>
