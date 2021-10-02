@@ -77,10 +77,39 @@
 </table>
 <br>
 <?php
-    $sqlTotal = "SELECT COUNT(id) FROM tbcontatos;
+    $sqlTotal = "SELECT id FROM tbcontatos";
     $qrTotal = mysqli_query($conexao, $sqlTotal) or die (mysqli_error($conexao));
     $numTotal = mysqli_num_rows($qrTotal);
     $totalPagina = ceil($numTotal/$quantidade);
+    echo "total de registros: $numTotal";
+
+    echo '<a href="?menuop=contatos&pagina=1">Primeira</a>';
+
+    if($pagina>3){
+        ?>
+            <a href="?menuop=contatos&pagina=<?php echo $pagina-1?>"> << </a>
+        <?php
+
+    }
+
+    for($i=1;$i<=$totalPagina;$i++){
+        if($i>=($pagina-3) && $i<= ($pagina+3)){
+            if($i==$pagina){
+                echo $i;
+            }else{
+                echo "<a href=\"?menuop=contatos&pagina=$i \"> $i</a>   ";
+            }
+        }
+       
+    }
     
-    //echo "total de registros: $numTotal";
+    if($pagina<($totalPagina-2)){
+        ?>
+            <a href="?menuop=contatos&pagina=<?php echo $pagina+1?>"> >> </a>
+        <?php
+
+    }
+
+    
+    echo "<a href=\"?menuop=contatos&pagina=$totalPagina\">Última</a>";
 ?>

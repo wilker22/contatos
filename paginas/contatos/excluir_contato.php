@@ -7,7 +7,7 @@
 
     $sql = "DELETE FROM tbcontatos WHERE id = '$id'";
     
-    mysqli_query($conexao, $sql) or die ("Erro ao executar a exclusão  //" . mysqli_error($conexao));
+    mysqli_query($conexao, $sql) or die ("Erro ao executar a exclusão   //" . mysqli_error($conexao));
 
     echo "Contato Excluído com sucesso!!";
 
